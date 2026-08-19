@@ -60,6 +60,7 @@ class Library:
                 return True
         return False
 
+<<<<<<< HEAD
         def get_statistics(self) -> Dict[str, any]:
             """Получает статистику библиотеки"""
             total = len(self.books)
@@ -87,3 +88,40 @@ class Library:
             }
 
     ```
+=======
+
+def get_statistics(self) -> Dict[str, any]:
+    """Получает статистику библиотеки"""
+    total = len(self.books)
+    available = sum(1 for b in self.books if b.is_available)
+    borrowed = total - available
+
+    # Статистика по годам (из первой ветки)
+    genres = {}
+    for book in self.books:
+        decade = (book.year // 10) * 10
+        genres[f"{decade}s"] = genres.get(f"{decade}s", 0) + 1
+
+    # Статистика по авторам (из второй ветки)
+    authors = {}
+    for book in self.books:
+        authors[book.author] = authors.get(book.author, 0) + 1
+    most_prolific = max(authors.items(), key=lambda x: x[1])[0] if authors else "N/A"
+
+    avg_rating = 0.0
+    if total > 0:
+        total_rating = sum(b.get_average_rating() for b in self.books)
+        avg_rating = round(total_rating / total, 1)
+
+    return {
+        'total_books': total,
+        'available': available,
+        'borrowed': borrowed,
+        'average_rating': avg_rating,
+        'opened': self.__opened_at.strftime("%Y-%m-%d %H:%M"),
+        'genres': genres,  # из первой ветки
+        'most_prolific_author': most_prolific  # из второй ветки
+    }
+
+
+```
